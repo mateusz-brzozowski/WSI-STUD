@@ -3,10 +3,10 @@
 
 Treść zadania
 ------------
-Zadanie na pierwsze spotkanie:
-Mamy problem plecakowy jak na wykładzie:
-w = np.array([8, 3, 5, 2]) #waga przedmiotów
-W = 9 #maksymalna waga plecaka
+Zadanie na pierwsze spotkanie:\
+Mamy problem plecakowy jak na wykładzie:\
+w = np.array([8, 3, 5, 2]) #waga przedmiotów\
+W = 9 #maksymalna waga plecaka\
 p = np.array([16, 8, 9, 6]) #wartość przedmiotów
 1.  Znaleźć rozwiązanie optymalne przez przegląd wyczerpujący
 2.  Rozwiązać problem przy użyciu heurystyki: do plecaka pakujemy przedmioty według kolejności wynikającej ze stosunku p/w
@@ -27,5 +27,5 @@ Odpowiedzi
 
 Autor
 ------------
-Imię i Nazwisko: Mateusz Brzozowski
+Imię i Nazwisko: Mateusz Brzozowski\
 Nr. Indeksu: 310608
