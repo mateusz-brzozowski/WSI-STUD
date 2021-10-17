@@ -53,7 +53,6 @@ def main():
 
     price, items = heuristic_review(w, W, p)
     print("Total price:", price, "Items:", [str(item) for item in items])
-
     print(comprehensive_review(w, W, p))
 
 
