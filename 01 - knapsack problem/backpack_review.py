@@ -1,13 +1,3 @@
-class Item:
-    def __init__(self, weight, price):
-        self.weight = weight
-        self.price = price
-        self.ratio = price / weight
-
-    def __str__(self):
-        return f"weight: {self.weight}, price: {self.price}"
-
-
 def comprehensive_review(weight, max_weight, price):
     binary_list = []
     for i in range(0, 2 ** len(weight)):
@@ -30,7 +20,18 @@ def comprehensive_review(weight, max_weight, price):
     return best_price, best_number
 
 
-def heuristic_review(items, max_weight):
+class Item:
+    def __init__(self, weight, price):
+        self.weight = weight
+        self.price = price
+        self.ratio = price / weight
+
+    def __str__(self):
+        return f"weight: {self.weight} price: {self.price}"
+
+
+def heuristic_review(weight, max_weight, price):
+    items = [Item(weight[i], price[i]) for i in range(0, len(weight))]
     items.sort(key=lambda x: x.ratio, reverse=True)
 
     packed_items = []
@@ -50,9 +51,8 @@ def main():
     W = 9
     p = [16, 8, 9, 6]
 
-    items = [Item(w[i], p[i]) for i in range(0, len(w))]
-
-    print(heuristic_review(items, W))
+    price, items = heuristic_review(w, W, p)
+    print("Total price:", price, "Items:", [str(item) for item in items])
     print(comprehensive_review(w, W, p))
 
 

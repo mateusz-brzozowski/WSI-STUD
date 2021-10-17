@@ -20,7 +20,12 @@ Pytania
 
 Odpowiedzi
 ------------
-1.	aaaaaaaaa
-2.	bbbbbbbbb
-3.	ccccccccc
-4.	ddddddddd
+1.	Nie, rozwiązania różnią się między sobą. W przeglądzie wyczerpującym użyliśmy 2 i 3 element i uzyskaliśmy wartość równą 19. Natomiast przy użyciu heurystyki użyliśmy 2 i 4 element i uzyskaliśmy wartość równą 14.
+2.	Zastosowanie "rad dobrej wróżki", czyli odpowiedniej heurystyki pozwala nam na uzystanie wyniku, który w naszym przypadku nie jest najlepszym z możliwym, jednakże jest to jedno z lepszych ustawień przemiotów w plecaku.
+3.	Dla metody zachłannej w średnimm czasie 49,39 sekund udało się sprawdzić 24 przedmioty.
+4.	Dodanie jednego elementu spowodowało wydłużenie czasu średnio o 64,09 sekund.
+
+Autor
+------------
+Imię i Nazwisko: Mateusz Brzozowski
+Nr. Indeksu: 310608
