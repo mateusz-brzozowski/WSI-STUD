@@ -25,17 +25,17 @@ def draw_arrows(points, scale):
             fc='k', ec='k')
 
 
-def create_plot(fun, points):
+def create_plot(function, points):
     point_array = []
     for point in points:
         x_array = []
         for x in point:
             x_array.append(abs(x))
         point_array.append(max(x_array))
-    MAX_POINT = max(point_array)
-    PLOT_STEP = MAX_POINT / 200
+    UPPER_BOUND = max(point_array) * 1.2
+    PLOT_STEP = UPPER_BOUND / 100
 
-    draw_plot(fun, MAX_POINT, PLOT_STEP)
-    draw_arrows(points, MAX_POINT)
+    draw_plot(function, UPPER_BOUND, PLOT_STEP)
+    draw_arrows(points, UPPER_BOUND)
 
     plt.show()
