@@ -18,7 +18,7 @@ def steepest_ascent(function, x, beta):
 def stop(function, points):
     if len(points) > 1000:
         return True
-    dx = 0.001
+    dx = 0.0001
     if (function(points[-1]) <= function(points[-1] + [dx, 0]) and
         function(points[-1]) <= function(points[-1] + [-dx, 0]) and
         function(points[-1]) <= function(points[-1] + [0, dx]) and
@@ -39,7 +39,7 @@ def main():
     # draw_steepest_ascent(f1, 0.00000001)
     # draw_steepest_ascent(f2, 0.1)
     # draw_steepest_ascent(f3, 0.00003)
-    draw_steepest_ascent(booth,0.5)
+    draw_steepest_ascent(booth, 0.05)
 
 
 
