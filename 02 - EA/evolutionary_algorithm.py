@@ -47,13 +47,16 @@ def reproduction(population, rate, population_size):
 
 
 def genetic_operations(population, mutation_factor):
+    modificated_population = []
     for member in population:
-        for x in member:
-            x += gauss(0, 1) * mutation_factor
-    return population
+        point = []
+        for variable in member:
+            point.append(variable + gauss(0, 1) * mutation_factor)
+        modificated_population.append(point)
+    return modificated_population
 
 
-def succession(population, modificate_population,  rates, modificated_rates, elite_size):
+def succession(population, modificate_population, rates, modificated_rates, elite_size):
     sorted_population = sorted(zip(rates, population))
     sorted_population = sorted_population[:elite_size]
     booth_population = sorted_population + list(zip(modificated_rates, modificate_population))
@@ -69,7 +72,7 @@ def main():
     POPULATION_SIZE = 20
     T_MAX = 10000
     MUTATION_FACTOR = 0.1
-    ELITE_SIZE = 5
+    ELITE_SIZE = 2
     for _ in range(5):
         population = []
         for _ in range(20):
