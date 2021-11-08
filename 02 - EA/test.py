@@ -21,23 +21,26 @@ def test(population_size, mutation_factor, elite_size, t_max, parameter):
 def main():
     HEADER = ["Parametr", "min", "max", "avg", "std"]
     POPULATION_SIZES = [10, 20, 50, 100, 250, 500, 1000]
-    T_MAX = 10000
+    BUDGET = 10000
     MUTATION_FACTORS = [0, 0.1, 1, 2, 5, 10, 25, 50, 100]
     ELITE_SIZES = [0, 1, 2, 5, 10, 15, 20]
 
+    # rows = []
+    # for population_size in POPULATION_SIZES:
+    #     t_max = BUDGET // population_size - 1
+    #     rows.append(test(population_size, 0.1, 2, t_max, population_size))
+    # print(tabulate(rows, headers=HEADER, tablefmt="github", floatfmt=".10f"))
+
     rows = []
-    for population_size in POPULATION_SIZES:
-        rows.append(test(population_size, 0.1, 2, T_MAX, population_size))
+    for mutation_factor in MUTATION_FACTORS:
+        t_max = BUDGET // 20 - 1
+        rows.append(test(20, mutation_factor, 2, t_max, mutation_factor))
     print(tabulate(rows, headers=HEADER, tablefmt="github", floatfmt=".10f"))
 
     # rows = []
-    # for mutation_factor in MUTATION_FACTORS:
-    #     rows.append(test(20, mutation_factor, 2, T_MAX, mutation_factor))
-    # print(tabulate(rows, headers=HEADER, tablefmt="github", floatfmt=".10f"))
-
-    # rows = []
     # for elite_size in ELITE_SIZES:
-    #     rows.append(test(20, 0.1, elite_size, T_MAX, elite_size))
+    #     t_max = BUDGET // 20 - 1
+    #     rows.append(test(20, 0.1, elite_size, t_max, elite_size))
     # print(tabulate(rows, headers=HEADER, tablefmt="github", floatfmt=".10f"))
 
 if __name__ == "__main__":

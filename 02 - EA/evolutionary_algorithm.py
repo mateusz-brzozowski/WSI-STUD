@@ -70,7 +70,8 @@ def main():
     UPPER_BOUND = 100
     DIMENSIONALITY = 2
     POPULATION_SIZE = 20
-    T_MAX = 10000
+    BUDGET = 10000
+    T_MAX = BUDGET // POPULATION_SIZE - 1
     MUTATION_FACTOR = 0.1
     ELITE_SIZE = 2
     for _ in range(5):
