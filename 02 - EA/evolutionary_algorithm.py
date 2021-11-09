@@ -1,6 +1,15 @@
 from cec2017.functions import f4
 from random import randint, gauss
 import numpy as np
+from matplotlib import pyplot as plt
+from itertools import product
+
+_x_arr = _y_arr = np.arange(-120, 120, 5)
+X, Y = np.meshgrid(_x_arr, _y_arr)
+Z = np.empty(X.shape)
+for i, j in product(range(X.shape[0]), range(X.shape[1])):
+    Z[i, j] = f4(np.array([X[i, j], Y[i, j]]))
+
 
 
 def evolutionary_algorithm(function, primary_popultion, population_size, mutation_factor, elite_size, t_max):
@@ -16,7 +25,7 @@ def evolutionary_algorithm(function, primary_popultion, population_size, mutatio
         if member_rate <= best_rate:
             best_rate = member_rate
             best_member = member
-        population = succession(population, modificated_population, rates, modificated_rates, elite_size)
+        population, rates = succession(population, modificated_population, rates, modificated_rates, elite_size)
         t+=1
     return best_member, best_rate
 
@@ -62,21 +71,23 @@ def succession(population, modificate_population, rates, modificated_rates, elit
     booth_population = sorted_population + list(zip(modificated_rates, modificate_population))
     booth_population = sorted(booth_population)
     new_population = []
-    for _, member in booth_population[:len(booth_population) - elite_size]:
+    new_rates = []
+    for rate, member in booth_population[:len(booth_population) - elite_size]:
+        new_rates.append(rate)
         new_population.append(member)
-    return new_population
+    return new_population, new_rates
 
 def main():
     UPPER_BOUND = 100
     DIMENSIONALITY = 2
-    POPULATION_SIZE = 20
+    POPULATION_SIZE = 5
     BUDGET = 10000
     T_MAX = BUDGET // POPULATION_SIZE - 1
     MUTATION_FACTOR = 0.1
     ELITE_SIZE = 2
     for _ in range(5):
         population = []
-        for _ in range(20):
+        for _ in range(POPULATION_SIZE):
             population.append(list(np.random.uniform(-UPPER_BOUND, UPPER_BOUND, size=DIMENSIONALITY)))
 
         point, value = evolutionary_algorithm(f4, population, POPULATION_SIZE, MUTATION_FACTOR, ELITE_SIZE, T_MAX)

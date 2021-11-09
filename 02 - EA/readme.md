@@ -24,51 +24,51 @@ Odpowiedzi
 ------------
 1. Domyślne parametry:
     - liczby osobników w populacji = 20
-    - siła mutacji = 0.1
+    - siła mutacji = 1
     - rozmiar elity = 2
     - budżet = 10000
 - Parametr - siła mutacji
 ```
 |   Parametr |            min |            max |            avg |          std |
 |------------|----------------|----------------|----------------|--------------|
-|          0 | 400.1495427209 | 405.3873343659 | 400.4364844888 | 1.0892966809 |
-|        0.1 | 400.0000264864 | 404.7152160674 | 400.8707408982 | 1.4705526015 |
-|          1 | 400.0000096531 | 401.5993211851 | 400.1314423245 | 0.3858817458 |
-|          2 | 400.0000020627 | 400.0001075148 | 400.0000292724 | 0.0000304517 |
-|          5 | 400.0000065868 | 400.0277922750 | 400.0075844412 | 0.0080689576 |
-|         10 | 400.0000639078 | 400.0183603971 | 400.0048586049 | 0.0044414152 |
-|         25 | 400.0001844568 | 400.0153058984 | 400.0039136335 | 0.0037233915 |
-|         50 | 400.0031619947 | 400.1219359753 | 400.0262081551 | 0.0315451993 |
-|        100 | 400.0023448065 | 401.0267443589 | 400.0942700046 | 0.1994527749 |
+|          0 | 400.0190103939 | 405.1408088829 | 400.4021457094 | 1.0569633038 |
+|        0.1 | 400.0000000009 | 401.1241450571 | 400.1320714598 | 0.3629655587 |
+|          1 | 400.0000000804 | 400.0000123460 | 400.0000021091 | 0.0000025876 |
+|          2 | 400.0000001176 | 400.0000252619 | 400.0000082836 | 0.0000076691 |
+|          5 | 400.0000037070 | 400.0001943352 | 400.0000381313 | 0.0000437186 |
+|         10 | 400.0000013619 | 400.0003489142 | 400.0001073023 | 0.0000991737 |
+|         25 | 400.0000115806 | 400.0030302773 | 400.0011642326 | 0.0010021876 |
+|         50 | 400.0003598893 | 400.0099209474 | 400.0029305610 | 0.0024257732 |
+|        100 | 400.0005887634 | 400.0246362815 | 400.0139310315 | 0.0086681017 |
 ```
 - Parametr - rozmiar elity
 ```
 |   Parametr |            min |            max |            avg |          std |
 |------------|----------------|----------------|----------------|--------------|
-|          0 | 400.0488584795 | 401.3150068062 | 400.3108040269 | 0.2966468263 |
-|          1 | 400.0005898854 | 402.3534137120 | 400.1825508783 | 0.6047470761 |
-|          2 | 400.0000001783 | 400.0211977284 | 400.0054481529 | 0.0085922422 |
-|          5 | 400.0000004686 | 404.8175552826 | 400.2716851695 | 0.9513914900 |
-|         10 | 400.0298975974 | 414.4839385068 | 401.4381446099 | 3.2766847187 |
-|         15 | 400.0000000173 | 400.1843760833 | 400.0216880981 | 0.0519860117 |
-|         20 | 400.0060428587 | 409.5465715740 | 400.6031431836 | 1.8957432347 |
+|          0 | 400.0000022326 | 400.1157044225 | 400.0230228796 | 0.0306372174 |
+|          1 | 400.0000000871 | 400.0000128661 | 400.0000027994 | 0.0000031052 |
+|          2 | 400.0000002228 | 400.0000089534 | 400.0000035098 | 0.0000025442 |
+|          5 | 400.0000000184 | 400.0000044017 | 400.0000013511 | 0.0000013814 |
+|         10 | 400.0000000194 | 400.0000057389 | 400.0000020667 | 0.0000015582 |
+|         15 | 400.0000000494 | 400.0000087822 | 400.0000020325 | 0.0000021903 |
+|         20 | 400.0000000244 | 400.0000197067 | 400.0000026616 | 0.0000040786
 ```
 - Parametr -  liczby osobników w populacji
 ```
 |   Parametr |            min |            max |            avg |          std |
 |------------|----------------|----------------|----------------|--------------|
-|         10 | 400.0000019258 | 400.0748107383 | 400.0251324353 | 0.0204154446 |
-|         20 | 400.0022071892 | 402.8246157443 | 400.3013824521 | 0.7201820418 |
-|         50 | 400.0104039483 | 401.8714617238 | 400.2640551719 | 0.4846047036 |
-|        100 | 400.0008793426 | 400.2034566892 | 400.0455728817 | 0.0508018398 |
-|        250 | 400.0098391397 | 400.0781275279 | 400.0160131300 | 0.0170608014 |
-|        500 | 400.0013350858 | 400.0108437269 | 400.0050578270 | 0.0039432673 |
-|       1000 | 400.0035324942 | 400.0181218601 | 400.0057546901 | 0.0029242665 |
+|         10 | 400.0000000345 | 400.0000042529 | 400.0000013469 | 0.0000012866 |
+|         20 | 400.0000000879 | 400.0000086739 | 400.0000022053 | 0.0000019238 |
+|         50 | 400.0000000350 | 400.0000128851 | 400.0000030639 | 0.0000033719 |
+|        100 | 400.0000000162 | 400.0000146262 | 400.0000031737 | 0.0000032872 |
+|        250 | 400.0000004465 | 400.0000779843 | 400.0000101573 | 0.0000167496 |
+|        500 | 400.0000016524 | 400.0002611663 | 400.0000318441 | 0.0000549131 |
+|       1000 | 400.0000017647 | 400.0005421208 | 400.0000835037 | 0.0001126870 |
 ```
 2. Wnioski:
-    - W pierwszej tabeli (parametr - siła mutacji) jesteśmy w stanie zauważyć, że dla małej wartości siły mutacji algorytm odnajduje lepszą wartość minimum, mamy mniejsze odchylenie standardowe oraz średnia wartość jest zbliżona do minimum, niż gdy ustawimy dużą wartość siły mutacji. Tak więc, niewielka siła mutacji oznacza dużą eksploatację (ale nie zbyt mała), a coraz większa wartość siły mutacji zmniejsza nam eksploatacje jednocześnie zwiększając eksploracje.
-    - W drugiej tabeli, gdzie zmienialiśmy parametr - rozmiar elity, nie odnajduję zadanej zależności. W teorii coraz większy rozmiar elity wpływa negatywnie na odnajdowanie minimów. Zbyt duża elita może sprawić, że po dotarciu do minimum lokalnego zostaniemy w nim i nie odjedziemy minimum globalnego.
-    - W trzeciej tabeli (parametr - liczba osobników w populacji) zaważamy, że wraz ze wzrostem populacji maleje odchylenie standardowe oraz średnia wyników. Wynika to z faktu iż duża populacja jest w stanie na początku pokryć większą część powierzchni, przez co szybciej na początku trafia w okolice minimum. Jednakże dla dużych populacji przez ograniczony budżet, nie jest w stanie odnaleźć najlepszego minimum (Mamy dużą eksplorację, a małą eksploatację), w przeciwieństwie do małej populacji, która odnalazła najlepsze minimum.
+    - W pierwszej tabeli (parametr - siła mutacji) jesteśmy w stanie zauważyć, że dla małej wartości siły mutacji algorytm odnajduje lepszą wartość minimum, mamy mniejsze odchylenie standardowe oraz średnia wartość jest zbliżona do minimum, niż gdy ustawimy dużą wartość siły mutacji, ale zbyt mała wartość mutacji posiada największą wartość maximum, ponieważ w zależności od początkowego rozrzucenia możemy nie przedostać w okolice minimum. Najlepiej sprawuje się siła mutacji od 1 do 2. Tak więc, niewielka siła mutacji oznacza dużą eksploatację (ale nie zbyt mała), a coraz większa wartość siły mutacji zmniejsza nam eksploatacje jednocześnie zwiększając eksploracje.
+    - W drugiej tabeli, gdzie zmienialiśmy parametr - rozmiar elity, znacząco nie wypływa na wyniki, jedynie brak elity lub elita w rozmiarze populacji negatywnie wpływa na ostateczny wynik. W teorii coraz większy rozmiar elity wpływa negatywnie wpływa na odnajdowanie minimów. Zbyt duża elita może sprawić, że po dotarciu do minimum lokalnego zostaniemy w nim i nie odjedziemy minimum globalnego. W tym przypadku dobrze sprawuje się elita o rozmiarze od 1 do 5.
+    - W trzeciej tabeli (parametr - liczba osobników w populacji) zaważamy, że najmniejsze wartości minimum odnajdują małe populacje, gorzej wypadają duże populacje. Wynika to z faktu iż duża populacja jest w stanie na początku pokryć większą część powierzchni, przez co szybciej na początku trafia w okolice minimum. Jednakże dla dużych populacji przez ograniczony budżet, nie jest w stanie odnaleźć najlepszego minimum (Mamy dużą eksplorację, a małą eksploatację), w przeciwieństwie do małej populacji, która odnalazła najlepsze minimum.
 
 
 Autor
