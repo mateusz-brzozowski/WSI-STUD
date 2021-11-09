@@ -1,15 +1,6 @@
 from cec2017.functions import f4
 from random import randint, gauss
 import numpy as np
-from matplotlib import pyplot as plt
-from itertools import product
-
-_x_arr = _y_arr = np.arange(-120, 120, 5)
-X, Y = np.meshgrid(_x_arr, _y_arr)
-Z = np.empty(X.shape)
-for i, j in product(range(X.shape[0]), range(X.shape[1])):
-    Z[i, j] = f4(np.array([X[i, j], Y[i, j]]))
-
 
 
 def evolutionary_algorithm(function, primary_popultion, population_size, mutation_factor, elite_size, t_max):
