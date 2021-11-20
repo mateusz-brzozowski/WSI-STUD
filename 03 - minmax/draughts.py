@@ -29,8 +29,11 @@ MogÄ rĂłwnieĹź wdroĹźyÄ reguĹy:
 https://en.wikipedia.org/wiki/Russian_draughts
 """
 
+from random import choice, randint, uniform
+from typing import Tuple
 import pygame
 from copy import deepcopy
+from math import inf
 
 FPS = 20
 
@@ -352,13 +355,67 @@ class Board:
                                 new_col+1, self.board[new_row][new_col]))
         return pos_moves
 
-    # TODO
-    def evaluate(self, is_blue_turn):
-        h = 0
+    # ADD GET ALL PIECES FUNCTION
+    def get_all_pieces(self):
+        pieces = []
         for row in range(BOARD_WIDTH):
             for col in range((row+1) % 2, BOARD_WIDTH, 2):
-                # TODO
-                pass
+                if not self.board[row][col].is_empty():
+                    pieces.append((self.board[row][col], row, col))
+        return pieces
+
+    # REWRITE EVALUATION
+    def evaluate(self):
+        h = 0
+        for piece, _, _ in self.get_all_pieces():
+            if piece.is_blue():
+                if piece.is_king():
+                    h += 10
+                else:
+                    h += 1
+            else:
+                if piece.is_king():
+                    h -= 10
+                else:
+                    h -= 1
+        return h
+
+    # IMPLEMENT EVALUATION 2
+    def evaluate2(self):
+        h = 0
+        for piece, row, _ in self.get_all_pieces():
+            if piece.is_blue():
+                if piece.is_king():
+                    h += 10
+                else:
+                    if row < BOARD_WIDTH / 2:
+                        h += 5
+                    else:
+                        h += 7
+            else:
+                if piece.is_king():
+                    h -= 10
+                else:
+                    if row > BOARD_WIDTH / 2:
+                        h -= 5
+                    else:
+                        h -= 7
+        return h
+
+    # IMPLEMENT EVALUATION 3
+    def evaluate3(self):
+        h = 0
+        for piece, row, _ in self.get_all_pieces():
+            if piece.is_blue():
+                if piece.is_king():
+                    h += 10
+                else:
+                    h += 5 + row
+            else:
+                if piece.is_king():
+                    h -= 10
+                else:
+                    h -= 5 - row
         return h
 
     def get_possible_moves(self, is_blue_turn):
@@ -415,10 +472,22 @@ class Board:
 
         self.white_turn = not self.white_turn
 
+    # REWRITE END FUNCION
     def end(self):
-        return (self.white_fig_left == 0 or
-                self.blue_fig_left == 0 or
-                len(self.get_possible_moves(not self.white_turn)) == 0)
+        """
+        Function check if game and who won
+        if game won white return 1
+        if game won blue return -1
+        if game not end return 0
+        """
+        if self.blue_fig_left == 0 or len(self.get_possible_moves(True)) == 0:
+            return 1
+        elif self.white_fig_left == 0 or len(self.get_possible_moves(False)) == 0:
+            return -1
+        return 0
+        # return (self.white_fig_left == 0 or
+        #         self.blue_fig_left == 0 or
+        #         len(self.get_possible_moves(not self.white_turn)) == 0)
 
     def clicked_at(self, row, col):
         field = self.board[row][col]
@@ -435,7 +504,6 @@ class Board:
             field.toogle_mark()
             self.something_is_marked = False
 
-    # tu spore powtorzenie kodu z move
     def make_ai_move(self, move):
         d_row = move.dest_row
         d_col = move.dest_col
@@ -483,34 +551,60 @@ class Game:
         (col, row) = self.mouse_to_indexes(pos)
         self.board.clicked_at(row, col)
 
-
-def minimax_a_b(board, depth):
-    # TODO
-    # retrun best_move
-    return
-
+# MY FUNCTIONS:
+def minimax_a_b(board: Board, depth, move_max):
+    moves = board.get_possible_moves(not board.white_turn)
+    move_evaluates = []
+    for possible_move in moves:
+        temp_board = deepcopy(board)
+        temp_board.make_ai_move(possible_move)
+        move_evaluates.append(minimax_a_b_recurr(temp_board, depth - 1, move_max, -inf, +inf))
+    print([elem[0] for elem in list(zip(move_evaluates, moves))])
+    if move_max:
+        return max(list(zip(move_evaluates, moves)), key= lambda x: x[0])[1]
+    else:
+        return min(list(zip(move_evaluates, moves)), key= lambda x: x[0])[1]
 
 def minimax_a_b_recurr(board, depth, move_max, a, b):
-    # TODO
-    return
+    if board.end() or depth == 0:
+        return board.evaluate()
+    U = successors(board)
+    if move_max:
+        for u in U:
+            a = max(a, minimax_a_b_recurr(u, depth - 1, not move_max, a, b))
+            if a >= b:
+                return b
+        return a
+    else:
+        for u in U:
+            b = min(b, minimax_a_b_recurr(u, depth - 1, not move_max, a, b))
+            if a >= b:
+                return a
+        return b
 
+def successors(board: Board):
+    new_boards = []
+    for possible_move in board.get_possible_moves(not board.white_turn):
+        temp_board = deepcopy(board)
+        temp_board.make_ai_move(possible_move)
+        new_boards.append(temp_board)
+    return new_boards
 
-def main():
-    window = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGHT))
-    is_running = True
-    clock = pygame.time.Clock()
-    game = Game(window)
-
+def ai_usr(clock, game, is_running):
     while is_running:
         clock.tick(FPS)
 
-        if game.board.end():
+        if game.board.end() == 1:
             is_running = False
-            # przydalby sie jakiĹ komunikat kto wygraĹ zamiast break
+            print("WHITE WIN")
+            break
+        elif game.board.end() == -1:
+            is_running = False
+            print("BLUE WIN")
             break
 
         if not game.board.white_turn:
-            move = minimax_a_b(deepcopy(game.board), MINIMAX_DEPTH)
+            move = minimax_a_b(deepcopy(game.board), MINIMAX_DEPTH, True)
             game.board.make_ai_move(move)
 
         for event in pygame.event.get():
@@ -523,6 +617,40 @@ def main():
 
         game.update()
 
+def ai_ai(clock, game, is_running):
+    i = 0
+    while is_running:
+        clock.tick(FPS)
+
+        if i >= 100:
+            break
+
+        if game.board.end() == 1:
+            is_running = False
+            print("WHITE WIN")
+            break
+        elif game.board.end() == -1:
+            is_running = False
+            print("BLUE WIN")
+            break
+
+        if game.board.white_turn:
+            move = minimax_a_b(deepcopy(game.board), MINIMAX_DEPTH, False)
+            game.board.make_ai_move(move)
+        else:
+            move = minimax_a_b(deepcopy(game.board), MINIMAX_DEPTH, True)
+            game.board.make_ai_move(move)
+
+        i += 1
+        game.update()
+
+def main():
+    window = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGHT))
+    is_running = True
+    clock = pygame.time.Clock()
+    game = Game(window)
+    # ai_usr(clock, game, is_running)
+    ai_ai(clock, game, is_running)
     pygame.quit()
 
 
