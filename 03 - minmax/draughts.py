@@ -415,8 +415,37 @@ class Board:
                 if piece.is_king():
                     h -= 10
                 else:
-                    h -= 5 - row
+                    h -= 5 - (BOARD_WIDTH - row)
         return h
+
+    # IMPLEMENT EVALUATION 4
+    def evaluate4(self):
+        h = 0
+        blue_min = (BOARD_WIDTH, BOARD_WIDTH)
+        blue_max = (0, 0)
+        white_min = (BOARD_WIDTH, BOARD_WIDTH)
+        white_max = (0, 0)
+        for piece, row, col in self.get_all_pieces():
+            if piece.is_blue():
+                blue_min = (min(blue_min[0], row), min(blue_min[1], col))
+                blue_max = (max(blue_max[0], row), max(blue_max[1], col))
+                if piece.is_king():
+                    h += 10
+                else:
+                    h += 1
+            else:
+                white_min = (min(white_min[0], row), min(white_min[1], col))
+                white_max = (max(white_max[0], row), max(white_max[1], col))
+                if piece.is_king():
+                    h -= 10
+                else:
+                    h -= 1
+        if (white_max[0] - white_min[0]) * (white_max[1] - white_min[1]) > (blue_max[0] - blue_min[0]) * (blue_max[1] - blue_min[1]):
+            h += 1
+        else:
+            h -= 1
+        return h
+
 
     def get_possible_moves(self, is_blue_turn):
         pos_moves = []
@@ -536,13 +565,16 @@ class Board:
 
 
 class Game:
-    def __init__(self, window):
+    # window is not required
+    def __init__(self, window = None):
         self.window = window
         self.board = Board(window)
 
+    # If window exist draw
     def update(self):
-        self.board.draw()
-        pygame.display.update()
+        if self.window:
+            self.board.draw()
+            pygame.display.update()
 
     def mouse_to_indexes(self, pos):
         return (int(pos[0]//FIELD_SIZE), int(pos[1]//FIELD_SIZE))
@@ -552,32 +584,31 @@ class Game:
         self.board.clicked_at(row, col)
 
 # MY FUNCTIONS:
-def minimax_a_b(board: Board, depth, move_max):
+def minimax_a_b(board: Board, depth, evaluation_function, move_max):
     moves = board.get_possible_moves(not board.white_turn)
     move_evaluates = []
     for possible_move in moves:
         temp_board = deepcopy(board)
         temp_board.make_ai_move(possible_move)
-        move_evaluates.append(minimax_a_b_recurr(temp_board, depth - 1, move_max, -inf, +inf))
-    print([elem[0] for elem in list(zip(move_evaluates, moves))])
+        move_evaluates.append(minimax_a_b_recurr(temp_board, depth - 1, not move_max, -inf, +inf, evaluation_function))
     if move_max:
         return max(list(zip(move_evaluates, moves)), key= lambda x: x[0])[1]
     else:
         return min(list(zip(move_evaluates, moves)), key= lambda x: x[0])[1]
 
-def minimax_a_b_recurr(board, depth, move_max, a, b):
+def minimax_a_b_recurr(board, depth, move_max, a, b, evaluation_function):
     if board.end() or depth == 0:
-        return board.evaluate()
+        return getattr(board, evaluation_function)()
     U = successors(board)
     if move_max:
         for u in U:
-            a = max(a, minimax_a_b_recurr(u, depth - 1, not move_max, a, b))
+            a = max(a, minimax_a_b_recurr(u, depth - 1, not move_max, a, b, evaluation_function))
             if a >= b:
                 return b
         return a
     else:
         for u in U:
-            b = min(b, minimax_a_b_recurr(u, depth - 1, not move_max, a, b))
+            b = min(b, minimax_a_b_recurr(u, depth - 1, not move_max, a, b, evaluation_function))
             if a >= b:
                 return a
         return b
@@ -590,7 +621,7 @@ def successors(board: Board):
         new_boards.append(temp_board)
     return new_boards
 
-def ai_usr(clock, game, is_running):
+def ai_usr(game, is_running, evaluation_function, blue_depth, clock = None):
     while is_running:
         clock.tick(FPS)
 
@@ -604,7 +635,7 @@ def ai_usr(clock, game, is_running):
             break
 
         if not game.board.white_turn:
-            move = minimax_a_b(deepcopy(game.board), MINIMAX_DEPTH, True)
+            move = minimax_a_b(deepcopy(game.board), blue_depth, evaluation_function, True)
             game.board.make_ai_move(move)
 
         for event in pygame.event.get():
@@ -617,12 +648,14 @@ def ai_usr(clock, game, is_running):
 
         game.update()
 
-def ai_ai(clock, game, is_running):
+def ai_ai(game, is_running, blue_evaluation_function, white_evaluation_function, blue_depth, white_depth, clock = None):
     i = 0
     while is_running:
-        clock.tick(FPS)
+        if clock:
+            clock.tick(FPS)
 
         if i >= 100:
+            print("DRAW")
             break
 
         if game.board.end() == 1:
@@ -635,23 +668,36 @@ def ai_ai(clock, game, is_running):
             break
 
         if game.board.white_turn:
-            move = minimax_a_b(deepcopy(game.board), MINIMAX_DEPTH, False)
-            game.board.make_ai_move(move)
+            move = minimax_a_b(deepcopy(game.board), white_depth, white_evaluation_function, False)
         else:
-            move = minimax_a_b(deepcopy(game.board), MINIMAX_DEPTH, True)
-            game.board.make_ai_move(move)
+            move = minimax_a_b(deepcopy(game.board), blue_depth, blue_evaluation_function, True)
+        game.board.make_ai_move(move)
 
         i += 1
         game.update()
 
 def main():
-    window = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGHT))
     is_running = True
-    clock = pygame.time.Clock()
-    game = Game(window)
-    # ai_usr(clock, game, is_running)
-    ai_ai(clock, game, is_running)
-    pygame.quit()
+
+    game = Game()
+    blue_evaluation_function = "evaluate"
+    white_evaluation_function = "evaluate"
+    blue_depth = 1
+    white_depth = 1
+    # ai_usr(game, is_running, blue_evaluation_function, blue_depth clock)
+    ai_ai(game, is_running, blue_evaluation_function, white_evaluation_function, blue_depth, white_depth)
+
+
+    # window = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGHT))
+    # clock = pygame.time.Clock()
+    # game = Game(window)
+    # blue_evaluation_function = "evaluate"
+    # white_evaluation_function = "evaluate"
+    # blue_depth = 1
+    # white_depth = 1
+    # # ai_usr(game, is_running, blue_evaluation_function, blue_depth clock)
+    # ai_ai(game, is_running, blue_evaluation_function, white_evaluation_function, blue_depth, white_depth, clock)
+    # pygame.quit()
 
 
 if __name__ == "__main__":
