@@ -30,6 +30,15 @@ Niech komputer gra z komputerem (bez wizualizacji), zmieniamy parametry jednego 
 Odpowiedzi
 ------------
 -
+```
+| White_Depth / Blue_Depth | 1        | 2        | 3        | 4        | 5        |
+| ------------------------ | -------- | -------- | -------- | -------- | -------- |
+| 1                        | Blue | White | Draw | Draw | Blue |
+| 2                        | White | Draw | Draw | Draw |  |
+| 3                        | White | White |  |  |  |
+| 4                        | White | Draw |  |  |  |
+| 5                        | White | White |  |  |  |
+```
 -
 
 2. Wnioski:

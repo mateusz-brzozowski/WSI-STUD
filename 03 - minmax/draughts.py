@@ -591,13 +591,18 @@ def minimax_a_b(board: Board, depth, evaluation_function, move_max):
         temp_board = deepcopy(board)
         temp_board.make_ai_move(possible_move)
         move_evaluates.append(minimax_a_b_recurr(temp_board, depth - 1, not move_max, -inf, +inf, evaluation_function))
+    print([elem[0] for elem in list(zip(move_evaluates, moves))])
     if move_max:
         return max(list(zip(move_evaluates, moves)), key= lambda x: x[0])[1]
     else:
         return min(list(zip(move_evaluates, moves)), key= lambda x: x[0])[1]
 
 def minimax_a_b_recurr(board, depth, move_max, a, b, evaluation_function):
-    if board.end() or depth == 0:
+    if move_max:
+        winner_id = -1
+    else:
+        winner_id = 1
+    if board.end() == winner_id or depth == 0:
         return getattr(board, evaluation_function)()
     U = successors(board)
     if move_max:
@@ -654,7 +659,7 @@ def ai_ai(game, is_running, blue_evaluation_function, white_evaluation_function,
         if clock:
             clock.tick(FPS)
 
-        if i >= 100:
+        if i >= 200:
             print("DRAW")
             break
 
@@ -682,8 +687,8 @@ def main():
     game = Game()
     blue_evaluation_function = "evaluate"
     white_evaluation_function = "evaluate"
-    blue_depth = 1
-    white_depth = 1
+    blue_depth = 5
+    white_depth = 2
     # ai_usr(game, is_running, blue_evaluation_function, blue_depth clock)
     ai_ai(game, is_running, blue_evaluation_function, white_evaluation_function, blue_depth, white_depth)
 
