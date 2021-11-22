@@ -35,7 +35,7 @@ import pygame
 from copy import deepcopy
 from math import inf
 
-FPS = 20
+FPS = 60
 
 MINIMAX_DEPTH = 5
 
@@ -364,6 +364,22 @@ class Board:
                     pieces.append((self.board[row][col], row, col))
         return pieces
 
+    # RETURN BLUE PIECES
+    def get_blue_pices(self):
+        blue_pices = []
+        for piece, _, _ in self.get_all_pieces():
+            if piece.is_blue():
+                blue_pices.append(piece)
+        return blue_pices
+
+    # RETURN WHITE PIECES
+    def get_white_pices(self):
+        white_pices = []
+        for piece, _, _ in self.get_all_pieces():
+            if not piece.is_blue():
+                white_pices.append(piece)
+        return white_pices
+
     # REWRITE EVALUATION
     def evaluate(self):
         h = 0
@@ -440,12 +456,9 @@ class Board:
                     h -= 10
                 else:
                     h -= 1
-        if (white_max[0] - white_min[0]) * (white_max[1] - white_min[1]) > (blue_max[0] - blue_min[0]) * (blue_max[1] - blue_min[1]):
-            h += 1
-        else:
-            h -= 1
+        h += (white_max[0] - white_min[0]) * (white_max[1] - white_min[1]) // len(self.get_white_pices())
+        h -= (blue_max[0] - blue_min[0]) * (blue_max[1] - blue_min[1]) // len(self.get_blue_pices())
         return h
-
 
     def get_possible_moves(self, is_blue_turn):
         pos_moves = []
@@ -591,7 +604,6 @@ def minimax_a_b(board: Board, depth, evaluation_function, move_max):
         temp_board = deepcopy(board)
         temp_board.make_ai_move(possible_move)
         move_evaluates.append(minimax_a_b_recurr(temp_board, depth - 1, not move_max, -inf, +inf, evaluation_function))
-    print([elem[0] for elem in list(zip(move_evaluates, moves))])
     if move_max:
         return max(list(zip(move_evaluates, moves)), key= lambda x: x[0])[1]
     else:
@@ -684,25 +696,25 @@ def ai_ai(game, is_running, blue_evaluation_function, white_evaluation_function,
 def main():
     is_running = True
 
-    game = Game()
-    blue_evaluation_function = "evaluate"
-    white_evaluation_function = "evaluate"
-    blue_depth = 5
-    white_depth = 2
-    # ai_usr(game, is_running, blue_evaluation_function, blue_depth clock)
-    ai_ai(game, is_running, blue_evaluation_function, white_evaluation_function, blue_depth, white_depth)
-
-
-    # window = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGHT))
-    # clock = pygame.time.Clock()
-    # game = Game(window)
-    # blue_evaluation_function = "evaluate"
-    # white_evaluation_function = "evaluate"
-    # blue_depth = 1
-    # white_depth = 1
+    # game = Game()
+    # blue_evaluation_function = "evaluate3"
+    # white_evaluation_function = "evaluate2"
+    # blue_depth = 5
+    # white_depth = 5
     # # ai_usr(game, is_running, blue_evaluation_function, blue_depth clock)
+    # ai_ai(game, is_running, blue_evaluation_function, white_evaluation_function, blue_depth, white_depth)
+
+
+    window = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGHT))
+    clock = pygame.time.Clock()
+    game = Game(window)
+    blue_evaluation_function = "evaluate"
+    white_evaluation_function = "evaluate3"
+    blue_depth = 5
+    white_depth = 5
+    ai_usr(game, is_running, blue_evaluation_function, blue_depth, clock)
     # ai_ai(game, is_running, blue_evaluation_function, white_evaluation_function, blue_depth, white_depth, clock)
-    # pygame.quit()
+    pygame.quit()
 
 
 if __name__ == "__main__":

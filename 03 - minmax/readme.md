@@ -29,21 +29,59 @@ Niech komputer gra z komputerem (bez wizualizacji), zmieniamy parametry jednego 
 
 Odpowiedzi
 ------------
--
+1. Tabele
+- Domyślna ewaluacja +10 za damkę +1 za pion
 ```
-| White_Depth / Blue_Depth | 1        | 2        | 3        | 4        | 5        |
-| ------------------------ | -------- | -------- | -------- | -------- | -------- |
-| 1                        | Blue | White | Draw | Draw | Blue |
-| 2                        | White | Draw | Draw | Draw |  |
-| 3                        | White | White |  |  |  |
-| 4                        | White | Draw |  |  |  |
-| 5                        | White | White |  |  |  |
+| White_Depth / Blue_Depth | 1     | 2     | 3     | 4     | 5     |
+| ------------------------ | ----- | ----- | ----- | ----- | ----- |
+| 1                        | Blue  | White | Draw  | Draw  | Blue  |
+| 2                        | White | Draw  | Draw  | Draw  | Draw  |
+| 3                        | White | White | White | Draw  | Draw  |
+| 4                        | White | Draw  | Draw  | Draw  | Draw  |
+| 5                        | White | White | White | Draw  | White |
 ```
--
+- Ewaluacja +10 za damkę +5 za piona na swojej połowie +7 za piona na połowie przeciwnika
+```
+| White_Depth / Blue_Depth | 1     | 2     | 3     | 4     | 5     |
+| ------------------------ | ----- | ----- | ----- | ----- | ----- |
+| 1                        | White | Blue  | Blue  | Draw  | Blue  |
+| 2                        | White | White | Draw  | Draw  | Draw  |
+| 3                        | White | Draw  | Draw  | Draw  | Blue  |
+| 4                        | White | Draw  | White | Draw  | White |
+| 5                        | White | White | Draw  | Draw  | Draw  |
+```
+- Ewaluacja +10 za damkę +5 za piona + kolumna
+```
+| White_Depth / Blue_Depth | 1     | 2     | 3     | 4     | 5     |
+| ------------------------ | ----- | ----- | ----- | ----- | ----- |
+| 1                        | Blue  | Blue  | Draw  | Blue  | Blue  |
+| 2                        | White | Draw  | Draw  | White | Draw  |
+| 3                        | White | White | White | Draw  | Draw  |
+| 4                        | White | Draw  | Draw  | Draw  | Blue  |
+| 5                        | White | White | White | Draw  | Blue  |
+```
+- Dla bialych i niebieskich głębokość przeszukiwać równa 5
+    - evaluate - domyślna ewaluacja
+    - evaluate2 - premiowanie połowy przeciwnika
+    - evaluate3 - premiowanie odległości od startu
+    - evaluate4 - premiowanie zwartości grupy
+```
+| White_Eval/ Blue_Eval | evaluate  | evaluate2 | evaluate3 | evaluate4 |
+| --------------------- | --------- | --------- | --------- | --------- |
+| evaluate              | White     | Draw      | Draw      | Draw      |
+| evaluate2             | White     | Draw      | Draw      | Draw      |
+| evaluate3             | Draw      | Blue      | Blue      | Draw      |
+| evaluate4             | Draw      | Draw      | Draw      | Draw      |
+```
 
 2. Wnioski:
-    -
+    - Jeżeli chodzi o grę człowiek vs komputer, Algorytm przy głębokości równej 5 i podstawowej ewaluacji zachowuje się w sposób logiczny. Nie wystawia się na bicie. Kiedy może zbić pionka zbija go, jendakże kiedy zbicie nie ma sensu, ponieważ może wiecej stacić nie robi tego, ale kiedy komputer zauważy możliwość "zrobienia" damki jest w stanie poświęcić pionki, byle by uzyskać damkę, która jest dużo warta, tak też wynika z założonej heurystyki.
 
+    - Komputer vs Kopmuter. W tym przypadku analiza wyników jest utrudniona, ponieważ komputer nie potrafi rozgrywać "koncówek". Wynika to z poziomu głębokości, kiedy przechodzimy do ostatniego etapu rozgrywki przewidywanie 5 ruchów do przodu, a nawet więcej nic nie da, ponieważ odległości pomiędzy damkami potrafią wynosić 7 ruchów (w szachach stosuje się schematy rozgywania "koncówek", ponieważ należy wykonać 15-20 ruchów które są schematyczne i nie ma potrzeby obliczania każdej możliwej kombinacji)
+
+    - Z porównywania głębokości dla każdej z ewaluacji jesteśmy wywnioskować, że osoba z dużo lepszą głębokością (poza podstawową ewaluacją) zazwyczaj wygrywa. Jadnak dla głębokości 4,5 różnice się zacierają i rozgrywki kończą się remisem. Dodatkowo zazwyczaj wygrywa osoba rozpoczynająca rozgrywkę.
+
+    - Porównywanie różnych ewaluacji jest utrudnione ze względu na to o czym wspomniałem w punkcie drugim. Jedyny wniosek jest taki, że ewaluacja premiująca znajdowanaie się pionków na połowie przeciwnika jest lepsza od pozostałych.
 
 Autor
 ------------
