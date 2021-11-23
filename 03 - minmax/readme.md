@@ -77,9 +77,9 @@ Odpowiedzi
 2. Wnioski:
     - Jeżeli chodzi o grę człowiek vs komputer, Algorytm przy głębokości równej 5 i podstawowej ewaluacji zachowuje się w sposób logiczny. Nie wystawia się na bicie. Kiedy może zbić pionka zbija go, jendakże kiedy zbicie nie ma sensu, ponieważ może wiecej stacić nie robi tego, ale kiedy komputer zauważy możliwość "zrobienia" damki jest w stanie poświęcić pionki, byle by uzyskać damkę, która jest dużo warta, tak też wynika z założonej heurystyki.
 
-    - Komputer vs Kopmuter. W tym przypadku analiza wyników jest utrudniona, ponieważ komputer nie potrafi rozgrywać "koncówek". Wynika to z poziomu głębokości, kiedy przechodzimy do ostatniego etapu rozgrywki przewidywanie 5 ruchów do przodu, a nawet więcej nic nie da, ponieważ odległości pomiędzy damkami potrafią wynosić 7 ruchów (w szachach stosuje się schematy rozgywania "koncówek", ponieważ należy wykonać 15-20 ruchów które są schematyczne i nie ma potrzeby obliczania każdej możliwej kombinacji)
+    - Komputer vs Komputer. W tym przypadku analiza wyników jest utrudniona, ponieważ komputer nie potrafi rozgrywać "koncówek". Wynika to z poziomu głębokości, kiedy przechodzimy do ostatniego etapu rozgrywki przewidywanie 5 ruchów do przodu, a nawet więcej nic nie da, ponieważ odległości pomiędzy damkami potrafią wynosić 7 ruchów (w szachach stosuje się schematy rozgywania "koncówek", ponieważ należy wykonać 15-20 ruchów które są schematyczne i nie ma potrzeby obliczania każdej możliwej kombinacji)
 
-    - Z porównywania głębokości dla każdej z ewaluacji jesteśmy wywnioskować, że osoba z dużo lepszą głębokością (poza podstawową ewaluacją) zazwyczaj wygrywa. Jadnak dla głębokości 4,5 różnice się zacierają i rozgrywki kończą się remisem. Dodatkowo zazwyczaj wygrywa osoba rozpoczynająca rozgrywkę.
+    - Z porównywania głębokości dla każdej z ewaluacji jesteśmy wywnioskować, że osoba z dużo lepszą głębokością (poza podstawową ewaluacją) zazwyczaj wygrywa. Jadnak dla głębokości 4 i 5 różnice się zacierają i rozgrywki kończą się remisem. Dodatkowo zazwyczaj wygrywa osoba rozpoczynająca rozgrywkę.
 
     - Porównywanie różnych ewaluacji jest utrudnione ze względu na to o czym wspomniałem w punkcie drugim. Jedyny wniosek jest taki, że ewaluacja premiująca znajdowanaie się pionków na połowie przeciwnika jest lepsza od pozostałych.
 
