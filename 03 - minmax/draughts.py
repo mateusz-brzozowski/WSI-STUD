@@ -598,7 +598,7 @@ class Game:
 
 # MY FUNCTIONS:
 def minimax_a_b(board: Board, depth, evaluation_function, move_max):
-    moves = board.get_possible_moves(not board.white_turn)
+    moves = board.get_possible_moves(move_max)
     move_evaluates = []
     for possible_move in moves:
         temp_board = deepcopy(board)
@@ -616,7 +616,7 @@ def minimax_a_b_recurr(board, depth, move_max, a, b, evaluation_function):
         winner_id = 1
     if board.end() == winner_id or depth == 0:
         return getattr(board, evaluation_function)()
-    U = successors(board)
+    U = successors(board, move_max)
     if move_max:
         for u in U:
             a = max(a, minimax_a_b_recurr(u, depth - 1, not move_max, a, b, evaluation_function))
@@ -630,9 +630,9 @@ def minimax_a_b_recurr(board, depth, move_max, a, b, evaluation_function):
                 return a
         return b
 
-def successors(board: Board):
+def successors(board: Board, move_max):
     new_boards = []
-    for possible_move in board.get_possible_moves(not board.white_turn):
+    for possible_move in board.get_possible_moves(move_max):
         temp_board = deepcopy(board)
         temp_board.make_ai_move(possible_move)
         new_boards.append(temp_board)
@@ -709,11 +709,11 @@ def main():
     clock = pygame.time.Clock()
     game = Game(window)
     blue_evaluation_function = "evaluate"
-    white_evaluation_function = "evaluate3"
-    blue_depth = 5
-    white_depth = 5
-    ai_usr(game, is_running, blue_evaluation_function, blue_depth, clock)
-    # ai_ai(game, is_running, blue_evaluation_function, white_evaluation_function, blue_depth, white_depth, clock)
+    white_evaluation_function = "evaluate"
+    blue_depth = 2
+    white_depth = 1
+    # ai_usr(game, is_running, blue_evaluation_function, blue_depth, clock)
+    ai_ai(game, is_running, blue_evaluation_function, white_evaluation_function, blue_depth, white_depth, clock)
     pygame.quit()
 
 
