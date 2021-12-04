@@ -58,8 +58,8 @@ class TrainingData:
         return self._class_
 
 
-def divide(training_pairs: List[TrainingData], attribute: int, value: int) -> List[TrainingData]:
-    return [elem for elem in training_pairs if elem.get_values()[attribute] == value]
+# def divide(training_pairs: List[TrainingData], attribute: int, value: int) -> List[TrainingData]:
+#     return [elem for elem in training_pairs if elem.get_values()[attribute] == value]
 
 
 def entropy(training_pairs: List[TrainingData]) -> float:
@@ -69,9 +69,8 @@ def entropy(training_pairs: List[TrainingData]) -> float:
 
 
 def inf(attribute: int, training_pairs: List[TrainingData]) -> float:
-    possible_values = list(set([pair.get_values()[attribute] for pair in training_pairs]))
-    divided = [divide(training_pairs, attribute, value) for value in possible_values]
-    return sum([(len(subset)/len(training_pairs)) * entropy(subset) for subset in divided])
+    divided_pairs = divide_by_attribute(attribute, training_pairs)
+    return sum(len(subset)/len(training_pairs) * entropy(subset) for subset in divided_pairs.values())
 
 
 def inf_gain(attribute: int, training_pairs: List[TrainingData]) -> float:
