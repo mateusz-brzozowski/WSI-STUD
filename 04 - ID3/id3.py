@@ -1,6 +1,6 @@
 from collections import Counter
 from math import log
-from typing import List
+from typing import Dict, List
 
 class Node:
     def __init__(self, value: int, children) -> None:
@@ -78,6 +78,31 @@ def inf_gain(attribute: int, training_pairs: List[TrainingData]) -> float:
     return entropy(training_pairs) - inf(attribute, training_pairs)
 
 
+def get_most_common_attribute(attributes: List[int], training_pairs: List[TrainingData]) -> int:
+    atributes_values = []
+    for attribute in attributes:
+        atributes_values.append((inf_gain(attribute, training_pairs), attribute))
+    return max(atributes_values)[1]
+
+
+def divide_by_attribute(most_common_attribute: int, training_pairs: List[TrainingData]) -> Dict[str, List[TrainingData]]:
+    divided = {}
+    for pair in training_pairs:
+        divided.setdefault(pair.get_values()[most_common_attribute], []).append(pair)
+    return divided
+
+
+def get_trees(attributes, most_common_attribute, devided_attributes):
+    new_attributes = attributes.copy()
+    new_attributes.discard(most_common_attribute)
+    return Node(most_common_attribute, {attribute: id3(new_pairs, new_attributes) for attribute, new_pairs in devided_attributes.items()})
+
+# def get_childrens(devided_attributes, attributes):
+#     new_attributes = {}
+#     for attribute, new_pairs in devided_attributes.items():
+#         new_attributes.setdefault(attribute, []).append(id3(new_pairs, attributes))
+#     return new_attributes
+
 def id3(training_pairs: List[TrainingData], attributes: List[int]) -> Node:
     classes = {pair.get_class() for pair in training_pairs}
 
@@ -87,19 +112,12 @@ def id3(training_pairs: List[TrainingData], attributes: List[int]) -> Node:
     if len(attributes) == 0:
         return Leaf(Counter(classes).most_common(1)[0][0])
 
-    atributes_values = [(inf_gain(attribute, training_pairs), attribute) for attribute in attributes]
-    best_attribute = max(atributes_values)[1]   # (f(x), x)
+    most_common_attribute = get_most_common_attribute(attributes, training_pairs)
 
-    # possible_values = list({pair.get_values()[best_attribute] for pair in training_pairs})
-    possible_values = set(pair.get_values()[best_attribute] for pair in training_pairs)
+    devided_attributes = divide_by_attribute(most_common_attribute, training_pairs)
 
-    divided_by_value = {value: divide(training_pairs, best_attribute, value) for value in possible_values}
-
-    new_attributes = attributes.copy()
-    new_attributes.discard(best_attribute)
-
-    return Node(best_attribute, {attribute: id3(new_pairs, new_attributes) for attribute, new_pairs in divided_by_value.items()})
-
+    # return Node(most_common_attribute, get_childrens(devided_attributes, new_attributes))
+    return get_trees(attributes, most_common_attribute, devided_attributes)
 
 
 def main():
