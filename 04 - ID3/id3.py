@@ -92,7 +92,7 @@ def divide_by_attribute(most_common_attribute: int, training_pairs: List[Trainin
     return divided
 
 
-def get_trees(attributes, most_common_attribute, devided_attributes):
+def get_trees(attributes: List[int], most_common_attribute: int, devided_attributes: Dict[str, List[TrainingData]]) -> Node:
     new_attributes = attributes.copy()
     new_attributes.discard(most_common_attribute)
     return Node(most_common_attribute, {attribute: id3(new_pairs, new_attributes) for attribute, new_pairs in devided_attributes.items()})
