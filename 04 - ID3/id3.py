@@ -13,25 +13,12 @@ class Node:
     def get_children(self):
         return self._children
 
-    def to_dot(self) -> str:
-        self_name = f"node_{id(self)}"
+    def check(self, values: List[str]) -> str:
+        if values[self.get_value()] in self.get_children():
+            return self.get_children()[values[self.get_value()]].check(values)
+        classes = [child.check(values) for child in self.get_children().values()]
+        return Counter(classes).most_common(1)[0][0]
 
-        # Create a node for the current node
-        x = f'  {self_name} [label="Split on attr {self.get_value()}"];\n'
-
-        # Create all the edges
-        for edge_label, child in self.get_children().items():
-            # Add dot from the child (to get its definition before inserting the edge)
-            x += child.to_dot()
-
-            # Add the edge to the child
-            child_name = f"node_{id(child)}"
-            escaped_edge_label = edge_label.encode("unicode_escape") \
-                                           .decode("ascii") \
-                                           .replace('"', r'\"')
-            x += f'  {self_name} -> {child_name} [label="{escaped_edge_label}"];\n'
-
-        return x
 
 class Leaf:
     def __init__(self, class_: str) -> None:
@@ -40,11 +27,8 @@ class Leaf:
     def get_class(self) -> str:
         return self._class_
 
-    def to_dot(self) -> str:
-        class_escaped = self.get_class().encode("unicode_escape") \
-                                   .decode("ascii") \
-                                   .replace('"', r'\"')
-        return f'  node_{id(self)} [shape=box, label="{class_escaped}"];\n'
+    def check(self, values: List[str]) -> str:
+        return self.get_class()
 
 class TrainingData:
     def __init__(self, values: List[str], class_: str) -> None:
@@ -56,10 +40,6 @@ class TrainingData:
 
     def get_class(self) -> str:
         return self._class_
-
-
-# def divide(training_pairs: List[TrainingData], attribute: int, value: int) -> List[TrainingData]:
-#     return [elem for elem in training_pairs if elem.get_values()[attribute] == value]
 
 
 def entropy(training_pairs: List[TrainingData]) -> float:
@@ -96,12 +76,6 @@ def get_trees(attributes: List[int], most_common_attribute: int, devided_attribu
     new_attributes.discard(most_common_attribute)
     return Node(most_common_attribute, {attribute: id3(new_pairs, new_attributes) for attribute, new_pairs in devided_attributes.items()})
 
-# def get_childrens(devided_attributes, attributes):
-#     new_attributes = {}
-#     for attribute, new_pairs in devided_attributes.items():
-#         new_attributes.setdefault(attribute, []).append(id3(new_pairs, attributes))
-#     return new_attributes
-
 def id3(training_pairs: List[TrainingData], attributes: List[int]) -> Node:
     classes = {pair.get_class() for pair in training_pairs}
 
@@ -115,7 +89,6 @@ def id3(training_pairs: List[TrainingData], attributes: List[int]) -> Node:
 
     devided_attributes = divide_by_attribute(most_common_attribute, training_pairs)
 
-    # return Node(most_common_attribute, get_childrens(devided_attributes, new_attributes))
     return get_trees(attributes, most_common_attribute, devided_attributes)
 
 
@@ -130,10 +103,6 @@ def main():
         ],
         set((0, 1))
     )
-
-    print("digraph {")
-    print(node.to_dot())
-    print("}")
 
 if __name__ == "__main__":
     main()
