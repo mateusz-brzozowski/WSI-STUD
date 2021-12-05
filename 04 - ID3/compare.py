@@ -2,12 +2,15 @@ import csv
 from id3 import TrainingData, id3
 from random import shuffle
 
-def get_data_from_file(path):
+def get_data_from_file(path, class_column):
     data = []
     with open(path) as csvfile:
         reader = csv.reader(csvfile, delimiter=',')
         for row in reader:
-            data.append(TrainingData(row[1:], row[0]))
+            if class_column != 0:
+                data.append(TrainingData(row[:class_column], row[class_column]))
+            else:
+                data.append(TrainingData(row[class_column+1:], row[class_column]))
     return data
 
 def test_id3(data, class_):
@@ -35,22 +38,15 @@ def test_id3(data, class_):
     return (tp+tn)/len(testing_data), tp, fp, fn, tn
 
 def main():
-    database = 'breast-cancer'
-    PATH = {
-        'breast-cancer': "04 - ID3/data/breast-cancer.data",
-        'mushroom': "04 - ID3/data/agaricus-lepiota.data"
+    database = 'tic-tac-toe'
+    DATABASE = {
+        'breast-cancer': ["04 - ID3/data/breast-cancer.data", 0, "recurrence-events", "no-recurrence-events"],
+        'mushroom': ["04 - ID3/data/agaricus-lepiota.data", 0, "e", "p"],
+        'tic-tac-toe': ["04 - ID3/data/tic-tac-toe.data", -1, "positive", "negative"]
     }
-    CLASS = {
-        'breast-cancer': ["recurrence-events", "no-recurrence-events"],
-        'mushroom': ["e", "p"]
-    }
-    # PATH = "data/agaricus-lepiota.data"
-    data = get_data_from_file(PATH.get(database))
-    avgs = []
-    for _ in range(1000):
-        avg, tp, fp, fn, tn = test_id3(data, CLASS.get(database))
-        avgs.append(avg)
-    print("AVG: " + str(sum(avgs)/len(avgs)), "True Positive: " +  str(tp), "False Positive: " + str(fp), "False Negative: " + str(fn), "True Negative: " + str(tn))
+    data = get_data_from_file(DATABASE.get(database)[0], DATABASE.get(database)[1])
+    avg, tp, fp, fn, tn = test_id3(data, DATABASE.get(database)[2:])
+    print("AVG: " + str(avg), "True Positive: " +  str(tp), "False Positive: " + str(fp), "False Negative: " + str(fn), "True Negative: " + str(tn))
 
 if __name__ == "__main__":
     main()
