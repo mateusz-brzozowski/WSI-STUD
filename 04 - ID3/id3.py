@@ -45,7 +45,8 @@ class TrainingData:
 def entropy(training_pairs: List[TrainingData]) -> float:
     classes = [pair.get_class() for pair in training_pairs]
     possible_values = list(set(classes))
-    return - sum(classes.count(value) * log(classes.count(value)) for value in possible_values)
+    frequencies = [classes.count(value)/len(classes) for value in possible_values]
+    return - sum( frequency * log(frequency) for frequency in frequencies)
 
 
 def inf(attribute: int, training_pairs: List[TrainingData]) -> float:
@@ -77,13 +78,13 @@ def get_trees(attributes: List[int], most_common_attribute: int, devided_attribu
     return Node(most_common_attribute, {attribute: id3(new_pairs, new_attributes) for attribute, new_pairs in devided_attributes.items()})
 
 def id3(training_pairs: List[TrainingData], attributes: List[int]) -> Node:
-    classes = {pair.get_class() for pair in training_pairs}
+    classes = Counter(pair.get_class() for pair in training_pairs)
 
     if len(classes) == 1:
         return Leaf(training_pairs[0].get_class())
 
     if len(attributes) == 0:
-        return Leaf(Counter(classes).most_common(1)[0][0])
+        return Leaf(classes.most_common(1)[0][0])
 
     most_common_attribute = get_most_common_attribute(attributes, training_pairs)
 

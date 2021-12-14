@@ -1,6 +1,7 @@
 import csv
 from id3 import TrainingData, id3
 from random import shuffle
+from statistics import mean
 
 def get_data_from_file(path, class_column):
     data = []
@@ -45,8 +46,14 @@ def main():
         'tic-tac-toe': ["04 - ID3/data/tic-tac-toe.data", -1, "positive", "negative"]
     }
     data = get_data_from_file(DATABASE.get(database)[0], DATABASE.get(database)[1])
-    avg, tp, fp, fn, tn = test_id3(data, DATABASE.get(database)[2:])
-    print("AVG: " + str(avg), "True Positive: " +  str(tp), "False Positive: " + str(fp), "False Negative: " + str(fn), "True Negative: " + str(tn))
+    avg = [0] * 100
+    tp = [0] * 100
+    fp = [0] * 100
+    fn = [0] * 100
+    tn = [0] * 100
+    for i in range(100):
+        avg[i], tp[i], fp[i], fn[i], tn[i] = test_id3(data, DATABASE.get(database)[2:])
+    print("AVG: " + str(mean(avg)), "True Positive: " +  str(mean(tp)), "False Positive: " + str(mean(fp)), "False Negative: " + str(mean(fn)), "True Negative: " + str(mean(tn)))
 
 if __name__ == "__main__":
     main()
