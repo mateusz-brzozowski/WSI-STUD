@@ -91,19 +91,3 @@ def id3(training_pairs: List[TrainingData], attributes: List[int]) -> Node:
     devided_attributes = divide_by_attribute(most_common_attribute, training_pairs)
 
     return get_trees(attributes, most_common_attribute, devided_attributes)
-
-
-def main():
-    node = id3(
-        [
-            TrainingData(["A", "1"], "0"),
-            TrainingData(["B", "1"], "1"),
-            TrainingData(["B", "2"], "1"),
-            TrainingData(["B", "2"], "0"),
-            TrainingData(["B", "3"], "1"),
-        ],
-        set((0, 1))
-    )
-
-if __name__ == "__main__":
-    main()

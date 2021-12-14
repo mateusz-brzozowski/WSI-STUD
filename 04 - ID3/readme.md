@@ -18,42 +18,42 @@ Zaimplementować klasyfikator ID3 (drzewo decyzyjne). Atrybuty nominalne, testy 
 
 ## Breast Cancer
 
-Liczba rekordów: 286\
-Liczba zmiennych: 10
+Liczba rekordów: `286`\
+Liczba zmiennych: `10`
 
 expected / predicted | positive | negative
 ---------------------|----------|---------
 positive             | 12.79    | 21.18
 negative             | 19.62    | 61.41
 
-AVG: 0.6447826086956522
+AVG: `0.6447826086956522`
 
 ## Mushroom
 
-Liczba rekordów: 8124\
-Liczba zmiennych: 22
+Liczba rekordów: `8124`\
+Liczba zmiennych: `22`
 
 expected / predicted | positive | negative
 ---------------------|----------|---------
 positive             | 1682.34  | 0
 negative             | 0        | 1567.66
 
-AVG: 1.0
+AVG: `1.0`
 
 ## Tic-Tac-Toe
 
-Liczba rekordów: 958\
-Liczba zmiennych: 10
+Liczba rekordów: `958`\
+Liczba zmiennych: `10`
 
 expected / predicted | positive | negative
 ---------------------|----------|---------
 positive             | 220.28   | 29.82
 negative             | 32.13    | 101.77
 
-AVG: 0.838671875
+AVG: `0.838671875`
 
 # Wnioski
 
 Algorytm zachosuje sie różnie w zależności od ilości rekordów w zbiorze danych, w zależności od ilości atrybutów oraz dobraniu odpowiednich par uczących:
-- Dla zbiorów danych gdzie mamy bardzo dużo rekordów oraz durzą liczbę atrybutów (zbiór Mushroom) algorytm zbudował drzewo, które działa ze 100% skutecznością, Tak więc im więcej par uczących, więcej ilości danych w zbiorze, więcej atrybutów (ale też nie za dużo) algorytm działa dużo lepiej.
-- W zbiorze Tic-Tac-Toe i Breast Cancer mamy taką samą ilość argumentów, jendakże zbiór Tic-Tac-Toe zachowywuje sie znacznie lepiej od zbioru Breast Cancer, ponieważ znajduje się w nim ponad trzy razy więcej rekordów danych, dzięki czemu mamy więcej par uczących i algorytm działa skuteczniej. Tak więc dla mniejszych zbiorów skuteczność zależy od doboru par uczących, czyli od tego które pary uczące na początku wybierzemy.
+- Dla zbiorów danych gdzie mamy bardzo dużo rekordów oraz durzą liczbę atrybutów (zbiór `Mushroom`) algorytm zbudował drzewo, które działa ze `100%` skutecznością, Tak więc im więcej par uczących, więcej ilości danych w zbiorze, więcej atrybutów (ale też nie za dużo) algorytm działa dużo lepiej.
+- W zbiorze `Tic-Tac-Toe` i `Breast Cancer` mamy taką samą ilość argumentów, jendakże zbiór `Tic-Tac-Toe` zachowywuje sie znacznie lepiej od zbioru `Breast Cancer`, ponieważ znajduje się w nim ponad trzy razy więcej rekordów danych, dzięki czemu mamy więcej par uczących i algorytm działa skuteczniej. Tak więc dla mniejszych zbiorów skuteczność zależy od doboru par uczących, czyli od tego które pary uczące na początku wybierzemy.
