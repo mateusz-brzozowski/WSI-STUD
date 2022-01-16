@@ -1,18 +1,24 @@
 import gym
 import random
 import numpy as np
-from functools import partial
 
-env = gym.make("FrozenLake8x8-v1")
 ALL_EPISODES = [1000]
+LEARNING_RATE = 0.8
+MAX_STEPS = 200
+GAMMA = 0.9
 
-def default_reward(state):
+MAX_EPSILON = 1.0
+MIN_EPSILON = 0.001
+DECAY_RATE = 0.00005
+
+
+def default_reward(env, state):
     row, col = divmod(state, 8)
     if env.desc[row, col] == b'G':
         return 1
     return 0
 
-def first_reward(state):
+def first_reward(env, state):
     row, col = divmod(state, 8)
     if env.desc[row, col] == b'G':
         return 1
@@ -20,7 +26,7 @@ def first_reward(state):
         return -1
     return 0
 
-def second_reward(state):
+def second_reward(env, state):
     row, col = divmod(state, 8)
     if env.desc[row, col] == b'G':
         return 10
@@ -31,37 +37,38 @@ def second_reward(state):
 
 REWARD_FUNCTIONS = [default_reward, first_reward, second_reward]
 
-def q_lerning(qtable, total_episodes, learning_rate, max_steps, gamma, epsilon, max_epsilon, min_epsilon, decay_rate):
-    total_rewards = 0
-    for episode in range(total_episodes):
+def q_lerning(env, episodes, reward_function):
+    qtable = np.zeros((env.observation_space.n, env.action_space.n))
+    epsilon = MAX_EPSILON
+    for episode in range(episodes):
         state = env.reset()
         done = False
-        for _ in range(max_steps):
+        for _ in range(MAX_STEPS):
             exp_exp_tradeoff = random.uniform(0, 1)
             if exp_exp_tradeoff > epsilon:
                 action = np.argmax(qtable[state,:])
             else:
                 action = env.action_space.sample()
             new_state, _, done, _ = env.step(action)
-            reward = default_reward(new_state)
-            qtable[state, action] = qtable[state, action] + learning_rate * (reward + gamma * np.max(qtable[new_state, :]) - qtable[state, action])
+            reward = reward_function(env, new_state)
+            qtable[state, action] = qtable[state, action] + LEARNING_RATE * (reward + GAMMA * np.max(qtable[new_state, :]) - qtable[state, action])
             state = new_state
             if done == True:
                 break
-        epsilon = min_epsilon + (max_epsilon - min_epsilon) * np.exp(-decay_rate*episode)
-    return total_rewards
+        epsilon = MIN_EPSILON + (MAX_EPSILON - MIN_EPSILON) * np.exp(-DECAY_RATE*episode)
+    return qtable
 
 
-def test_q_lerning(qtable, max_steps):
+def test_q_lerning(env, qtable):
     env.reset()
     total_succes = 0
     for _ in range(1000):
         state = env.reset()
         done = False
-        for _ in range(max_steps):
+        for _ in range(MAX_STEPS):
             action = np.argmax(qtable[state,:])
             new_state, reward, done, _ = env.step(action)
-            if done:
+            if done == True:
                 if reward == 1.0:
                     total_succes += 1
                 break
@@ -69,26 +76,20 @@ def test_q_lerning(qtable, max_steps):
     env.close()
     return total_succes
 
+def run_q_lerning(total_episodes, reward_function):
+    env = gym.make("FrozenLake8x8-v1")
+    qtable = q_lerning(env, total_episodes, reward_function)
+    return test_q_lerning(env, qtable)
+
+
 def main():
-    total_episodes = 1000        # Total episodes
-    learning_rate = 0.8           # Learning rate
-    max_steps = 400                # Max steps per episode
-    gamma = 0.9                  # Discounting rate
-
-    # Exploration parameters
-    epsilon = 1.0                 # Exploration rate
-    max_epsilon = 1.0             # Exploration probability at start
-    min_epsilon = 0.001            # Minimum exploration probability
-    decay_rate = 0.00005             # Exponential decay rate for exploration prob
-
-    qtable = np.zeros((env.observation_space.n, env.action_space.n))
-
     for reward_function in REWARD_FUNCTIONS:
         print(reward_function.__name__)
+        print('episodes | avg success')
+        print('---------|------------')
         for total_episodes in ALL_EPISODES:
-            q_lerning(qtable, total_episodes, learning_rate, max_steps, gamma, epsilon, max_epsilon, min_epsilon, decay_rate)
-            total_succes = test_q_lerning(qtable, max_steps)
-            print(f'{((total_succes/1000) * 100):.6f}' + "%")
+            total_succes = run_q_lerning(total_episodes, reward_function)
+            print(f'{total_episodes:8} | {((total_succes/1000) * 100):.5f}' + "%")
 
 if __name__ == "__main__":
     main()
