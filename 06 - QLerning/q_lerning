@@ -1,6 +1,10 @@
 import gym
 import random
 import numpy as np
+from statistics import mean
+from multiprocessing.pool import Pool
+from functools import partial
+from itertools import repeat
 
 ALL_EPISODES = [1000]
 LEARNING_RATE = 0.8
@@ -44,8 +48,7 @@ def q_lerning(env, episodes, reward_function):
         state = env.reset()
         done = False
         for _ in range(MAX_STEPS):
-            exp_exp_tradeoff = random.uniform(0, 1)
-            if exp_exp_tradeoff > epsilon:
+            if random.uniform(0, 1) > epsilon:
                 action = np.argmax(qtable[state,:])
             else:
                 action = env.action_space.sample()
@@ -88,8 +91,11 @@ def main():
         print('episodes | avg success')
         print('---------|------------')
         for total_episodes in ALL_EPISODES:
-            total_succes = run_q_lerning(total_episodes, reward_function)
-            print(f'{total_episodes:8} | {((total_succes/1000) * 100):.5f}' + "%")
+            with Pool() as pool:
+                repeat_funtion = partial(run_q_lerning, reward_function=reward_function)
+                total_succes = pool.map(repeat_funtion, repeat(total_episodes, 1))
+                print(f'{total_episodes:8} | {mean(total_succes):.2f}' + "%")
+
 
 if __name__ == "__main__":
     main()
