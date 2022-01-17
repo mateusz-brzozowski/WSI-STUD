@@ -41,18 +41,18 @@ def q_lerning(env, episodes, reward_function):
     qtable = np.zeros((env.observation_space.n, env.action_space.n))
     epsilon = MAX_EPSILON
     for episode in range(episodes):
-        state = env.reset()
+        fields = env.reset()
         done = False
         for _ in range(MAX_STEPS):
             if random.uniform(0, 1) > epsilon:
-                action = np.argmax(qtable[state,:])
+                move = np.argmax(qtable[fields,:])
             else:
-                action = env.action_space.sample()
-            new_state, _, done, _ = env.step(action)
-            end_point = divmod(new_state, 8)
+                move = env.action_space.sample()
+            new_fields, _, done, _ = env.step(move)
+            end_point = divmod(new_fields, 8)
             reward = reward_function(env, end_point)
-            qtable[state, action] = qtable[state, action] + LEARNING_RATE * (reward + GAMMA * np.max(qtable[new_state, :]) - qtable[state, action])
-            state = new_state
+            qtable[fields, move] = qtable[fields, move] + LEARNING_RATE * (reward + GAMMA * np.max(qtable[new_fields, :]) - qtable[fields, move])
+            fields = new_fields
             if done == True:
                 break
         epsilon = MIN_EPSILON + (MAX_EPSILON - MIN_EPSILON) * np.exp(-DECAY_RATE*episode)
@@ -63,16 +63,16 @@ def test_q_lerning(env, qtable):
     env.reset()
     total_succes = 0
     for _ in range(1000):
-        state = env.reset()
+        fields = env.reset()
         done = False
         for _ in range(MAX_STEPS):
-            action = np.argmax(qtable[state,:])
-            new_state, reward, done, _ = env.step(action)
+            move = np.argmax(qtable[fields,:])
+            new_fields, reward, done, _ = env.step(move)
             if done == True:
                 if reward == 1.0:
                     total_succes += 1
                 break
-            state = new_state
+            fields = new_fields
     env.close()
     return total_succes / 10
 
