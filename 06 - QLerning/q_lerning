@@ -30,13 +30,12 @@ def first_reward(env, end_point):
 
 def second_reward(env, end_point):
     if env.desc[end_point] == b'G':
-        return 10
+        return 5
     elif env.desc[end_point] == b'H':
-        return -5
-    else:
         return -1
+    return 0
 
-REWARD_FUNCTIONS = [default_reward, first_reward, second_reward]
+REWARD_FUNCTIONS = [second_reward]
 
 def q_lerning(env, episodes, reward_function):
     qtable = np.zeros((env.observation_space.n, env.action_space.n))
@@ -75,7 +74,7 @@ def test_q_lerning(env, qtable):
                 break
             state = new_state
     env.close()
-    return total_succes
+    return total_succes / 10
 
 def run_q_lerning(total_episodes, reward_function):
     env = gym.make("FrozenLake8x8-v1")
