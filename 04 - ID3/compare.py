@@ -39,11 +39,12 @@ def test_id3(data, class_):
     return (tp+tn)/len(testing_data), tp, fp, fn, tn
 
 def main():
-    database = 'tic-tac-toe'
+    database = 'ache'
     DATABASE = {
         'breast-cancer': ["04 - ID3/data/breast-cancer.data", 0, "recurrence-events", "no-recurrence-events"],
         'mushroom': ["04 - ID3/data/agaricus-lepiota.data", 0, "e", "p"],
-        'tic-tac-toe': ["04 - ID3/data/tic-tac-toe.data", -1, "positive", "negative"]
+        'tic-tac-toe': ["04 - ID3/data/tic-tac-toe.data", -1, "positive", "negative"],
+        'ache': ["07 - Bayes Network/output.data", -1, "True", "False"]
     }
     data = get_data_from_file(DATABASE.get(database)[0], DATABASE.get(database)[1])
     avg = [0] * 100
