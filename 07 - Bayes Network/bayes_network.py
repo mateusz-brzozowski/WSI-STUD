@@ -1,6 +1,5 @@
-import json
-import csv
 from random import uniform
+import json
 
 class Node:
     def __init__(self, name, parents = None, probabilities = None):
@@ -19,21 +18,19 @@ def load_from_json(path_file):
 def generate_and_save(path_file, nodes, number_of_examples):
     with open(path_file, 'w') as file_handle:
         for _ in range(number_of_examples):
-            values = {}
+            example = {}
             result = ''
             for node in nodes:
-                parent_values = ""
+                parent_example = ""
                 for name in node.parents:
-                    parent_values += 'T' if values[name] else 'F'
-                values[node.name] = (
-                    uniform(0, 1) < node.probabilities[parent_values]
-                )
-                result += f"{values[node.name]},"
+                    parent_example += 'T' if example[name] else 'F'
+                example[node.name] = uniform(0, 1) < node.probabilities[parent_example]
+                result += f"{example[node.name]},"
             file_handle.write(result[:-1] + '\n')
 
 def main():
     nodes = load_from_json("07 - Bayes Network/input.json")
-    generate_and_save("07 - Bayes Network/output.data", nodes, 5000)
+    generate_and_save("07 - Bayes Network/output.data", nodes, 10000)
 
 if __name__ == "__main__":
     main()
