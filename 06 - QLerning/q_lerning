@@ -35,7 +35,7 @@ def second_reward(env, end_point):
         return -1
     return 0
 
-REWARD_FUNCTIONS = [second_reward]
+REWARD_FUNCTIONS = [default_reward, first_reward, second_reward]
 
 def q_lerning(env, episodes, reward_function):
     qtable = np.zeros((env.observation_space.n, env.action_space.n))

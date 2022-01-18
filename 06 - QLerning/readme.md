@@ -28,15 +28,6 @@ Algorytm testowany jest w następujących warunkach:
 default reward
 - `1` pkt za dotarcie do celu, w przeciwnym wypadku `0`
 
-Stały epsilon:
-episodes | avg success
----------|------------
- 1000    | 3.79%
- 10000   | 7.97%
- 50000   | 6.03%
- 100000  | 5.09%
- 250000  | 4.71%
-
 episodes | avg success
 ---------|------------
  1000    | 2.11%
@@ -44,6 +35,15 @@ episodes | avg success
  50000   | 28.37%
  100000  | 43.20%
  250000  | 57.91%
+
+Stały epsilon (0.8):
+episodes | avg success
+---------|------------
+ 1000    | 0.00%
+ 10000   | 6.68%
+ 50000   | 3.70%
+ 100000  | 2.80%
+ 250000  | 6.38%
 
 first reward
 - `1` pkt za dotarcie do celu, `-1` za wpadnięcie do dziuwy, w przeciwnym wypadku `0`
@@ -66,6 +66,15 @@ episodes | avg success
  50000   | 37.32%
  100000  | 56.35%
  250000  | 72.57%
+
+Stały epsilon (0.1):
+episodes | avg success
+---------|------------
+ 1000    | 0.00%
+ 10000   | 30.20%
+ 50000   | 30.70%
+ 100000  | 35.84%
+ 250000  | 35.00%
 
 # Wnioski
 

@@ -20,3 +20,10 @@ positive             | 248.25   | 107.05
 negative             | 161.9    | 1482.8
 
 AVG: `0.86673`
+
+# Wnioski
+
+Jako wejście program otrzymuje plik `JSON`, w którym zawarte są kolejne węzły modelu. Każdy węzeł zawiera takie parametry jak: Nazwa, Rodzice (węzły, od których jest zależny) oraz Prawdopodobieństwa (tylko zdarzenia pozytywne, ponieważ przeciwne możemy wyliczyć z definicji prawdopodobieństwa).
+
+Na Wyjściu programu otrzymujemy plik `.data`, dla każdego węzła obliczamy prawdopodobieństwo i sprawdzamy, czy jest ono mniejsze niż podane i zapisujemy do pliku.
+
