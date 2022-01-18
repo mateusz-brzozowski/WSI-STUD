@@ -9,13 +9,11 @@ Za wynik uznajemy procent dojść do celu w 1000 prób. W każdej próbie można
 
 # Założenia
 
-Algorytm nie posiada stałego parametru epsilon, tak jak było to zaprezentowane na wykładzie, jest on zmienny, zmniejsza się wykładniczo, czyli prawdopodobieństwo wybrania kierunku zmniejsza się z każdą kolejną krokiem. Takie rozwiązanie zapewnia dużo lepsze wyniki.
-
 Parametry:
-- β (learning rate) = `0.8`
+- β (learning rate) = `0.06`
 - maksymalna liczba kroków = `200`
 - γ (gamma) = `0.9`
-- ε (epsilon) = (`1.0` ; `0.001`)
+- ε (epsilon) = `0.8`
 - decay rate = `0.00005`
 
 Algorytm testowany jest w następujących warunkach:
@@ -31,51 +29,34 @@ default reward
 episodes | avg success
 ---------|------------
  1000    | 2.11%
- 10000   | 6.87%
- 50000   | 28.37%
- 100000  | 43.20%
- 250000  | 57.91%
+ 5000    | 15.87%
+ 10000   | 27.37%
+ 25000   | 38.20%
+ 50000   | 52.91%
 
-Stały epsilon (0.8):
-episodes | avg success
----------|------------
- 1000    | 0.00%
- 10000   | 6.68%
- 50000   | 3.70%
- 100000  | 2.80%
- 250000  | 6.38%
 
 first reward
 - `1` pkt za dotarcie do celu, `-1` za wpadnięcie do dziuwy, w przeciwnym wypadku `0`
 
 episodes | avg success
 ---------|------------
- 1000    | 3.81%
- 10000   | 14.20%
- 50000   | 45.81%
- 100000  | 63.34%
- 250000  | 68.93%
+ 1000    | 15.20%
+ 5000    | 65.35%
+ 10000   | 71.50%
+ 25000   | 79.85%
+ 50000   | 80.75%
 
 second reward
 - `5` pkt za dotarcie do celu, `-1` za wpadnięcie do dziuwy, w przeciwnym wypadku `0`
 
 episodes | avg success
 ---------|------------
- 1000    | 3.80%
- 10000   | 9.93%
- 50000   | 37.32%
- 100000  | 56.35%
- 250000  | 72.57%
-
-Stały epsilon (0.1):
-episodes | avg success
----------|------------
- 1000    | 0.00%
- 10000   | 30.20%
- 50000   | 30.70%
- 100000  | 35.84%
- 250000  | 35.00%
+ 1000    | 26.65%
+ 5000    | 38.55%
+ 10000   | 47.50%
+ 25000   | 70.40%
+ 50000   | 76.95%
 
 # Wnioski
 
-Algorytm zachowuje się różnie w zależności od dobranych początkowych parametrów, jednakże po znalezieniu metodą inżynierską takowy algorytm zaczyna zachowywać się w dużo lepiej w sposób znaczący. Dodatkowo im większa ilość epizodów w trakcie nauki algorytmu, tym lepiej się on zachowuje. Zastosowanie różnych funkcji nagród zmienia wynik programu. Domyślna ewaluacja wypada najgorzej. Taka sama wartość nagrody i kary, długoterminowo (na kolejnych poziomach ilości epizodów) wypada dużo lepiej niż domyślna i druga funkcja nagrody, jednakże, druga funkcja nagrody, w której nagroda jest dużo większa niż kara, dla `250000` epizodów wypada znacznie lepiej.
+Algorytm zachowuje się różnie w zależności od dobranych początkowych parametrów, jednakże po znalezieniu metodą inżynierską takowy algorytm zaczyna zachowywać się w dużo lepiej w sposób znaczący. Dodatkowo im większa ilość epizodów w trakcie nauki algorytmu, tym lepiej się on zachowuje. Zastosowanie różnych funkcji nagród zmienia wynik programu. Domyślna ewaluacja wypada najgorzej. Taka sama wartość nagrody i kary wypada dużo lepiej niż domyślna i trochę lepiej, niż druga funkcja nagrody, w której nagroda jest dużo większa niż kara.

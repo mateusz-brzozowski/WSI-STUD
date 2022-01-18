@@ -6,13 +6,12 @@ from multiprocessing.pool import Pool
 from functools import partial
 from itertools import repeat
 
-ALL_EPISODES = [1000, 10000, 50000, 100000, 250000]
-LEARNING_RATE = 0.8
+ALL_EPISODES = [1000, 5000, 10000, 25000, 50000]
+LEARNING_RATE = 0.06
 MAX_STEPS = 200
 GAMMA = 0.9
 
-MAX_EPSILON = 1.0
-MIN_EPSILON = 0.001
+EPSILON = 0.8
 DECAY_RATE = 0.00005
 
 
@@ -39,12 +38,11 @@ REWARD_FUNCTIONS = [default_reward, first_reward, second_reward]
 
 def q_lerning(env, episodes, reward_function):
     qtable = np.zeros((env.observation_space.n, env.action_space.n))
-    epsilon = MAX_EPSILON
     for episode in range(episodes):
         fields = env.reset()
         done = False
         for _ in range(MAX_STEPS):
-            if random.uniform(0, 1) > epsilon:
+            if random.uniform(0, 1) > EPSILON:
                 move = np.argmax(qtable[fields,:])
             else:
                 move = env.action_space.sample()
@@ -55,7 +53,6 @@ def q_lerning(env, episodes, reward_function):
             fields = new_fields
             if done == True:
                 break
-        epsilon = MIN_EPSILON + (MAX_EPSILON - MIN_EPSILON) * np.exp(-DECAY_RATE*episode)
     return qtable
 
 
@@ -90,7 +87,7 @@ def main():
         for total_episodes in ALL_EPISODES:
             with Pool() as pool:
                 repeat_funtion = partial(run_q_lerning, reward_function=reward_function)
-                total_succes = pool.map(repeat_funtion, repeat(total_episodes, 30))
+                total_succes = pool.map(repeat_funtion, repeat(total_episodes, 5))
                 print(f'{total_episodes:8} | {mean(total_succes):.2f}' + "%")
 
 
