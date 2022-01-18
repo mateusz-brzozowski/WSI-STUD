@@ -87,7 +87,7 @@ def main():
         for total_episodes in ALL_EPISODES:
             with Pool() as pool:
                 repeat_funtion = partial(run_q_lerning, reward_function=reward_function)
-                total_succes = pool.map(repeat_funtion, repeat(total_episodes, 5))
+                total_succes = pool.map(repeat_funtion, repeat(total_episodes, 25))
                 print(f'{total_episodes:8} | {mean(total_succes):.2f}' + "%")
 
 
