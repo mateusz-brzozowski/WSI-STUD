@@ -28,7 +28,7 @@ default reward
 
 episodes | avg success
 ---------|------------
- 1000    | 2.11%
+ 1000    | 1.11%
  5000    | 15.87%
  10000   | 27.37%
  25000   | 38.20%
@@ -59,4 +59,4 @@ episodes | avg success
 
 # Wnioski
 
-Algorytm zachowuje się różnie w zależności od dobranych początkowych parametrów, jednakże po znalezieniu metodą inżynierską takowy algorytm zaczyna zachowywać się w dużo lepiej w sposób znaczący. Dodatkowo im większa ilość epizodów w trakcie nauki algorytmu, tym lepiej się on zachowuje. Zastosowanie różnych funkcji nagród zmienia wynik programu. Domyślna ewaluacja wypada najgorzej. Taka sama wartość nagrody i kary wypada dużo lepiej niż domyślna i trochę lepiej, niż druga funkcja nagrody, w której nagroda jest dużo większa niż kara.
+Algorytm zachowuje się różnie w zależności od dobranych początkowych parametrów, jednakże po znalezieniu metodą inżynierską takowy algorytm zaczyna zachowywać się w dużo lepiej w sposób znaczący. Dodatkowo im większa ilość epizodów w trakcie nauki algorytmu, tym lepiej się on zachowuje. Zastosowanie różnych funkcji nagród zmienia wynik programu. Domyślna ewaluacja wypada najgorzej. Taka sama wartość nagrody i kary wypada dużo lepiej niż domyślna i trochę lepiej, niż druga funkcja nagrody, w której nagroda jest dużo większa niż kara. Aczkolwiek dla mniejszych zbiorów, druga funckja nagrody wypada prawie 2 razy lepiej, jendkaże potem wynik rośinie dużo wolniej, niż pierwsza funckja nagrody.
